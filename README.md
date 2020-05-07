@@ -16,3 +16,7 @@
     * "food delivery" button--some restaurants only use a certain type of food delivery, link to order online button
     * Google reviews
   * forgoing brackets--get shown two options, choose the winner, winner is kept for the next round
+
+## Language Ideas
+* React
+* database: Firebase
