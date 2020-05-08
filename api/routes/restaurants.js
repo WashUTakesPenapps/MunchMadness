@@ -11,21 +11,22 @@ router.get("/", function(req, res, next) {
 router.post('/', function(req, res, next) {
     const client = new Client({});
     console.log(req.body);
-    client.placesNearby({
+    var location = req.body.location;
+    client.findPlaceFromText({
         params: {
             key: process.env.GOOGLE_MAPS_API_KEY,
-            // key:'AIzaSyDVLzXVT1vBPMgHF-x3MOXQlMJiVlryDj8',
-            query: req.body.query, //cuisine entry (make sure it's sanitized)
-            radius: req.body.radius, //radius entry, 0 to 50,000 m
-            minprice: 0,
-            maxprice: req.body.maxPrice, // maxPrice should be 0 to 4
-            language: "en",
-            location: req.body.location
+            input: req.body.query, //cuisine entry (make sure it's sanitized)
+            inputtype: "textquery",
+            point: req.body.location,
+            circle: req.body.radius //radius entry, 0 to 50,000 m
+            // minprice: 0,
+            // maxprice: req.body.maxPrice, // maxPrice should be 0 to 4
+            // language: "en"
         },
         timeout: 1000
-    }, axiosInstance)
+    })
     .then(r => {
-        console.log(r.data.results[0]);
+        console.log(r.data);
       })
       .catch(e => {
         console.log(e);

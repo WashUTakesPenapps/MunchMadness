@@ -39,7 +39,6 @@ class App extends Component {
   }
 
   onSubmit(e) {
-    e.preventDefault();
     var priceObj = document.getElementById("price");
     var maxPrice = priceObj.options[priceObj.selectedIndex].value;
     fetch('http://localhost:9000/restaurants', {
