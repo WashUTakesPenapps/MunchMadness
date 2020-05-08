@@ -1,5 +1,4 @@
 import React, {Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -20,32 +19,29 @@ class App extends Component {
   //         .then(res => this.setState({ apiResponse: res }));
   // }
 
-  getLocation() {
-    // function success (position) {
-    //   var loc = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
-    //   this.setState({
-    //     location: loc
-    //   });
-    // }
-    // function error() {
-    //   console.log("Cannot find your location");
-    // }
+  componentDidMount() {
+    const success = position => {
+      var loc = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
+      this.setState({
+        location: loc
+      });
+    }
+    function error() {
+      console.log("Cannot find your location");
+    }
 
-    // if(!navigator.geolocation) {
-    //    console.log('Geolocation is not supported by your browser');
-    // } else {
-    //   console.log('Locating...');
-    //   navigator.geolocation.getCurrentPosition(success, error);
-    // }
-
+    if(!navigator.geolocation) {
+       console.log('Geolocation is not supported by your browser');
+    } else {
+      console.log('Locating...');
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
   }
 
   onSubmit(e) {
     e.preventDefault();
     var priceObj = document.getElementById("price");
     var maxPrice = priceObj.options[priceObj.selectedIndex].value;
-    this.getLocation();
-    console.log(this.state.location);
     fetch('http://localhost:9000/restaurants', {
       method: 'POST',
       body: JSON.stringify({
@@ -53,7 +49,7 @@ class App extends Component {
         radius: this.state.radius, //radius entry, 0 to 50,000 m
         minPriceLevel: 0,
         maxPriceLevel: maxPrice,
-        location: this.getLocation()
+        location: this.state.location
       }),
       headers: {"Content-Type": "application/json"}
     })
