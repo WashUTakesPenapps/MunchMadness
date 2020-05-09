@@ -3,6 +3,7 @@ import './App.css';
 // import { database, firestore } from './services/firebase';
 import { firestore } from './services/firebase';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -46,30 +47,29 @@ class App extends Component {
     e.preventDefault();
     var priceObj = document.getElementById("price");
     var maxPrice = priceObj.options[priceObj.selectedIndex].value;
-    
-    console.log("here");
-    
+        
     // Updates the attempt database with dummy data passed through the form
     firestore.collection("attempt").add({
       cuisine: this.state.cuisine,
       user: this.state.radius
     }); 
     
-    
-
+    // calls the route restaurants.js to query list of restaurants
     fetch('http://localhost:9000/restaurants', {
       method: 'POST',
       body: JSON.stringify({
-        query: this.state.cuisine, //cuisine entry (make sure it's sanitized)
+        cuisine: this.state.cuisine, //cuisine entry (make sure it's sanitized)
         radius: this.state.radius, //radius entry, 0 to 50,000 m
-        minPriceLevel: 0,
-        maxPriceLevel: maxPrice,
+        maxPrice: maxPrice,
         location: this.state.location
       }),
       headers: {"Content-Type": "application/json"}
     })
-    .then(response => response.text())
-    .then(text => console.log(text))
+    // .then(response => response.text())
+    // .then(text => console.log(text))
+    .then(response => {
+      console.log(response);
+    })
   }
 
   onTextChangeC(e) {
