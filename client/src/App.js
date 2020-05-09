@@ -19,6 +19,7 @@ class App extends Component {
   //         .then(res => this.setState({ apiResponse: res }));
   // }
 
+  // finds user's location
   componentDidMount() {
     const success = position => {
       var loc = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
@@ -38,6 +39,7 @@ class App extends Component {
     }
   }
 
+  // request a restaurant
   onSubmit(e) {
     var priceObj = document.getElementById("price");
     var maxPrice = priceObj.options[priceObj.selectedIndex].value;
