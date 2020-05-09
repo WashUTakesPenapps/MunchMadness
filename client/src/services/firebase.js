@@ -4,7 +4,7 @@ import firebase from 'firebase';
 // may want to have another file to configure / somehow hide this information
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDmmROengKXvPdrG3qsQ505C10yImnZ0Tk",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "munch-madness-d2573.firebaseapp.com",
   databaseURL: "https://munch-madness-d2573.firebaseio.com",
   projectId: "munch-madness-d2573",
