@@ -1,5 +1,7 @@
 import React, {Component } from 'react';
 import './App.css';
+// import { database, firestore } from './services/firebase';
+import { firestore } from './services/firebase';
 
 class App extends Component {
   constructor(props) {
@@ -39,8 +41,20 @@ class App extends Component {
   }
 
   onSubmit(e) {
+    e.preventDefault();
     var priceObj = document.getElementById("price");
     var maxPrice = priceObj.options[priceObj.selectedIndex].value;
+    
+    console.log("here");
+    
+    // Updates the attempt database with dummy data passed through the form
+    firestore.collection("attempt").add({
+      cuisine: this.state.cuisine,
+      user: this.state.radius
+    }); 
+    
+    
+
     fetch('http://localhost:9000/restaurants', {
       method: 'POST',
       body: JSON.stringify({
