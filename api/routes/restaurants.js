@@ -33,7 +33,15 @@ router.post('/', function(req, res, next) {
         }
     })
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+        console.log(res);
+        //getting the business ids of the restaurants we got
+        var business_ids = Array(res.total);
+        for (i=0; i < res.total; ++i) {
+            business_ids.push(res.businesses[i].id);
+        }
+        //need to be added to firebase
+    })
     .catch(error => console.error('Error:', error))
 
     // const client = new Client({});

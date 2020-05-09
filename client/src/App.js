@@ -59,17 +59,14 @@ class App extends Component {
       method: 'POST',
       body: JSON.stringify({
         cuisine: this.state.cuisine, //cuisine entry (make sure it's sanitized)
-        radius: this.state.radius, //radius entry, 0 to 50,000 m
+        radius: this.state.radius, //radius entry, 0 to 24.854848 miles (so up to 25 mile radius)
         maxPrice: maxPrice,
         location: this.state.location
       }),
       headers: {"Content-Type": "application/json"}
     })
-    // .then(response => response.text())
-    // .then(text => console.log(text))
-    .then(response => {
-      console.log(response);
-    })
+    .then(response => response.text())
+    .then(text => console.log(text))
   }
 
   onTextChangeC(e) {
@@ -80,7 +77,7 @@ class App extends Component {
 
   onTextChangeR(e) {
     this.setState({
-      radius: e.target.value
+      radius: Math.floor(e.target.value * 1609.344)
     });
   }
 
@@ -89,7 +86,7 @@ class App extends Component {
       <div className="App">
         <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
           <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
-          <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius"/>
+          <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius (in miles)"/>
           <label>Price:</label>
           <select id="price">
             <option value="1">$</option>
