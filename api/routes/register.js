@@ -2,29 +2,31 @@ var express = require('express');
 var router = express.Router();
 
 //firebase integration
-var firebase = require('firebase/app');
-require('firebase/firestore')
-var firebaseConfig = {
-  apiKey: "AIzaSyDmmROengKXvPdrG3qsQ505C10yImnZ0Tk",
-  authDomain: "munch-madness-d2573.firebaseapp.com",
-  databaseURL: "https://munch-madness-d2573.firebaseio.com",
-  projectId: "munch-madness-d2573",
-  storageBucket: "munch-madness-d2573.appspot.com",
-  messagingSenderId: "657051909764",
-  appId: "1:657051909764:web:c52e717e3995815af0ccd1",
-  measurementId: "G-3TDV966TLE"
-};
+// var firebase = require('firebase/app');
+// require('firebase/firestore')
+// var firebaseConfig = {
+//   apiKey: "AIzaSyDmmROengKXvPdrG3qsQ505C10yImnZ0Tk",
+//   authDomain: "munch-madness-d2573.firebaseapp.com",
+//   databaseURL: "https://munch-madness-d2573.firebaseio.com",
+//   projectId: "munch-madness-d2573",
+//   storageBucket: "munch-madness-d2573.appspot.com",
+//   messagingSenderId: "657051909764",
+//   appId: "1:657051909764:web:c52e717e3995815af0ccd1",
+//   measurementId: "G-3TDV966TLE"
+// };
 
 // Initialize Firebase
-var fireApp = firebase.initializeApp(firebaseConfig);
-var database = firebase.firestore(fireApp);
+// var fireApp = firebase.initializeApp(firebaseConfig);
+var fireApp = require('../../client/src/services/firebase');
+const database = fireApp.Firebase.firestore();
+// var database = firebase.firestore(fireApp);
 //gets register data from a person and sends it to firebase
 router.post('/', function(req, res){
   console.log('attempting to register...')
   try{
-    console.log(req.body)
-    var user = req.body.username
-    var pass = req.body.password
+    console.log(req.body);
+    var user = req.body.username;
+    var pass = req.body.password;
     if(user === "" || pass === "") {
       console.log('missing username or password');
       return

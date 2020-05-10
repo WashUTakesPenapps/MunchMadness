@@ -1,7 +1,7 @@
 import React, {Component } from 'react';
 import './App.css';
 // import { database, firestore } from './services/firebase';
-import { firestore } from './services/firebase';
+import { Firebase } from './services/firebase';
 import Register from './user';
 
 
@@ -48,7 +48,8 @@ class App extends Component {
     e.preventDefault();
     var priceObj = document.getElementById("price");
     var maxPrice = priceObj.options[priceObj.selectedIndex].value;
-        
+
+    var firestore = Firebase.firestore();
     // Updates the attempt database with dummy data passed through the form
     firestore.collection("attempt").add({
       cuisine: this.state.cuisine,
