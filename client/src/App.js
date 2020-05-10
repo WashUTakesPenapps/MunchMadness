@@ -2,7 +2,7 @@ import React, {Component } from 'react';
 import './App.css';
 // import { database, firestore } from './services/firebase';
 import { firestore } from './services/firebase';
-import Register from './register_comp';
+import Register from './user';
 
 
 class App extends Component {
