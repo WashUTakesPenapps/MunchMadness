@@ -2,6 +2,7 @@ import React, {Component } from 'react';
 import './App.css';
 // import { database, firestore } from './services/firebase';
 import { firestore } from './services/firebase';
+import Register from './register_comp';
 
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
     };
 
     // this.getLocation = this.getLocation.bind(this);
-}
+  }
 
   // callAPI() {
   //     fetch("http://localhost:9000/restaurants")
@@ -84,6 +85,7 @@ class App extends Component {
   render () {
     return (
       <div className="App">
+        <Register/>
         <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
           <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
           <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius (in miles)"/>
