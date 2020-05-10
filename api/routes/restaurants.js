@@ -2,6 +2,23 @@ var express = require("express");
 var router = express.Router();
 // const {Client, Status} = require("@googlemaps/google-maps-services-js");
 const fetch = require("node-fetch");
+var firebase = require('firebase');
+
+// should think of a way to have this in one file and just include it 
+//in different places!
+const firebaseConfig = {
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: "munch-madness-d2573.firebaseapp.com",
+    databaseURL: "https://munch-madness-d2573.firebaseio.com",
+    projectId: "munch-madness-d2573",
+    storageBucket: "munch-madness-d2573.appspot.com",
+    messagingSenderId: "657051909764",
+    appId: "1:657051909764:web:c52e717e3995815af0ccd1",
+    measurementId: "G-3TDV966TLE"
+  };
+  firebase.initializeApp(firebaseConfig);
+var firestore = firebase.firestore();
+
 
 //Yelp API key
 const key = "qfHw9wZLuqGmCH3cKcADSwArEbdGBXmfO8knM3oCGoSfwVmLRNzdI5AC_0KzGURK_-rJe2QO35GZtuJWWM4oUTBafJ7oJguJNGHBe1mzKvS_cP-C2kKhJPt-7xi3XnYx";
@@ -15,7 +32,7 @@ router.get("/", function(req, res, next) {
 router.post('/', function(req, res, next) {
     console.log(req.body);
     var url = "https://api.yelp.com/v3/businesses/search?term=food&location=" + req.body.location;
-    url = url + "&radius=" + req.body.radius + "&categories=" + req.body.cuisine;
+    url = url + "&radius=" + req.body.radius + "&categories=" + req.body.cuisine + "&limit=8";
     var price = "";
     for(i=1; i < req.body.price; ++i) {
         price += toString(i) + ",";
@@ -34,13 +51,26 @@ router.post('/', function(req, res, next) {
     })
     .then(res => res.json())
     .then(res => {
-        console.log(res);
         //getting the business ids of the restaurants we got
-        var business_ids = Array(res.total);
-        for (i=0; i < res.total; ++i) {
-            business_ids.push(res.businesses[i].id);
+   
+        // !!! just storing 8 restaurant ids!! can change later if want
+        // console.log(res);
+        var business_ids = Array(8);
+        
+        for (i=0; i <8; ++i) {
+            console.log(i);
+            business_ids[i] = res.businesses[i].id;
         }
-        //need to be added to firebase
+    
+        return business_ids;
+        
+    })
+    .then(res => {
+        // adds the business ids to firebase
+        firestore.collection("restaurants/groups_from_yelp/business_ids").add({
+            user: "",
+            ids: res
+        });
     })
     .catch(error => console.error('Error:', error))
 
