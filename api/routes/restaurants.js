@@ -70,7 +70,11 @@ router.post('/', function(req, res, next) {
         firestore.collection("restaurants/groups_from_yelp/business_ids").add({
             user: "",
             ids: res
+        })
+        .then(function(docRef){
+            console.log(docRef.id);
         });
+        
     })
     .catch(error => console.error('Error:', error))
 

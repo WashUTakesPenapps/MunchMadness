@@ -54,6 +54,7 @@ class App extends Component {
       cuisine: this.state.cuisine,
       user: this.state.radius
     }); 
+    // console.log(docRef);
     
     // calls the route restaurants.js to query list of restaurants
     fetch('http://localhost:9000/restaurants', {
