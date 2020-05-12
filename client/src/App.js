@@ -11,17 +11,10 @@ class App extends Component {
     this.state = { 
       cuisine: "",
       radius: "",
-      location: ""
+      location: "",
+      submitted: false
     };
-
-    // this.getLocation = this.getLocation.bind(this);
   }
-
-  // callAPI() {
-  //     fetch("http://localhost:9000/restaurants")
-  //         .then(res => res.text())
-  //         .then(res => this.setState({ apiResponse: res }));
-  // }
 
   // finds user's location
   componentDidMount() {
@@ -67,7 +60,12 @@ class App extends Component {
       }),
       headers: {"Content-Type": "application/json"}
     })
-    .then(response => response.text())
+    .then(response => {
+      response.text();
+      this.setState({
+        submitted: true
+      });
+    })
     .then(text => console.log(text))
   }
 
@@ -99,9 +97,6 @@ class App extends Component {
           </select>
           <button className="buttons" type="submit">Go!</button>
         </form>
-
-        {/* <p className="App-intro">{this.state.apiResponse}</p> */}
-
       </div>
     );
   }
