@@ -1,5 +1,5 @@
-import firebase from 'firebase';
-//var firebase = require("firebase/app");
+// import firebase from 'firebase';
+var firebase = require("firebase");
 
 // may want to have another file to configure / somehow hide this information
 
@@ -13,7 +13,11 @@ const firebaseConfig = {
   appId: "1:657051909764:web:c52e717e3995815af0ccd1",
   measurementId: "G-3TDV966TLE"
 };
-firebase.initializeApp(firebaseConfig);
-export const database = firebase.database();
-export const auth = firebase.auth;
-export const firestore = firebase.firestore();
+const Firebase = firebase.initializeApp(firebaseConfig);
+
+exports.Firebase = Firebase;
+// exports.firestore = Firebase.firestore();
+// export default Firebase;
+// export const database = firebase.database();
+// export const auth = firebase.auth;
+// export const firestore = firebase.firestore();

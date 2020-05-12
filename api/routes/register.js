@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 //firebase integration
-var firebase = require('firebase/app');
-require('firebase/firestore')
+// var firebase = require('firebase/app');
+// require('firebase/firestore')
 // var firebaseConfig = {
 //   apiKey: "AIzaSyDmmROengKXvPdrG3qsQ505C10yImnZ0Tk",
 //   authDomain: "munch-madness-d2573.firebaseapp.com",
@@ -16,29 +16,30 @@ require('firebase/firestore')
 // };
 
 // Initialize Firebase
-//var fireApp = firebase.initializeApp(firebaseConfig);
-//var database = firebase.firestore(fireApp);
-var database = firebase.firestore();
+// var fireApp = firebase.initializeApp(firebaseConfig);
+var fireApp = require('../../client/src/services/firebase');
+const database = fireApp.Firebase.firestore();
+// var database = firebase.firestore(fireApp);
 //gets register data from a person and sends it to firebase
 router.post('/', function(req, res){
-  console.log('attempting to register...')
+  console.log('attempting to register...');
   try{
-    console.log(req.body)
-    var user = req.body.username
-    var pass = req.body.password
+    console.log(req.body);
+    var user = req.body.username;
+    var pass = req.body.password;
     if(user === "" || pass === "") {
       console.log('missing username or password');
-      return
+      return;
     }
     //checking if username already exists
-    var doesExist = false //flag for username in DB
+    var doesExist = false; //flag for username in DB
     database.collection('user-info').where('username','==',user)
       .get()
       .then(function(querySnapshot){
         querySnapshot.forEach(function(doc){
-          console.log('username: ',user,' already exists, use a different one')
-          console.log('found at: ',doc.id)
-          doesExist = true
+          console.log('username: ',user,' already exists, use a different one');
+          console.log('found at: ',doc.id);
+          doesExist = true;
         })
       })
       //runs if the username isn't in DB already
