@@ -3,7 +3,7 @@ import './App.css';
 // import { database, firestore } from './services/firebase';
 import { Firebase } from './services/firebase';
 import Register from './user';
-
+import BracketPage from './bracketPage';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +12,9 @@ class App extends Component {
       cuisine: "",
       radius: "",
       location: "",
-      submitted: false
+      submitted: false,
+      docRef: ""
+
     };
   }
 
@@ -52,8 +54,8 @@ class App extends Component {
     
     // calls the route restaurants.js to query list of restaurants
     console.log("hello");
-   
-    fetch('http://localhost:9000/restaurants', {
+    (async() => {
+      let response = await fetch('http://localhost:9000/restaurants', {
         method: 'POST',
         body: JSON.stringify({
           cuisine: this.state.cuisine, //cuisine entry (make sure it's sanitized)
@@ -65,13 +67,23 @@ class App extends Component {
       })
       .then(response => {
         console.log("am i here");
-        this.setState({
-          submitted: true
-        });
+        // this.setState({
+        //   submitted: true
+        // });
         return response.json();
         // return new Response(response);
       })
-      .then(text => console.log(text))
+      .then(text => {
+        this.setState({docRef: text});
+        this.setState({
+          submitted: true
+        });
+        return new Response(text);
+      })
+      
+      console.log(response);
+    })();
+    
 
   }
 
@@ -91,18 +103,24 @@ class App extends Component {
     return (
       <div className="App">
         <Register/>
-        <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
-          <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
-          <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius (in miles)"/>
-          <label>Price:</label>
-          <select id="price">
-            <option value="1">$</option>
-            <option value="2">$$</option>
-            <option value="3">$$$</option>
-            <option value="4">$$$$</option>
-          </select>
-          <button className="buttons" type="submit">Go!</button>
-        </form>
+        {!this.state.submitted && 
+          <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
+            <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
+            <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius (in miles)"/>
+            <label>Price:</label>
+            <select id="price">
+              <option value="1">$</option>
+              <option value="2">$$</option>
+              <option value="3">$$$</option>
+              <option value="4">$$$$</option>
+            </select>
+            <button className="buttons" type="submit">Go!</button>
+          </form>
+        }
+        {this.state.submitted &&
+          <BracketPage docId = {this.state.docRef.docId}></BracketPage>
+        }
+        
       </div>
     );
   }
