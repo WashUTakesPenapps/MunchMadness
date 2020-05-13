@@ -1,5 +1,6 @@
 import React, {Component } from 'react';
 import { Firebase } from './services/firebase';
+import {Poll} from './components/poll';
 
 
 class BracketPage extends Component {
@@ -13,14 +14,14 @@ class BracketPage extends Component {
 
     componentDidMount() {
         var database = Firebase.firestore();
+        
+  
     }
 
     render () {
         return (
             <div>
-                <h1>{this.state.title1}</h1>
-
-                <h2>{this.state.title2}</h2>
+                <Poll></Poll>
             </div>
 
 

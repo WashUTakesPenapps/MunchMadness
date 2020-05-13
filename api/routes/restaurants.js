@@ -19,7 +19,7 @@ var fireApp = require('../../client/src/services/firebase');
 //   };
 // firebase.initializeApp(firebaseConfig);
 // var firestore = firebase.firestore();
-console.log(fireApp);
+//console.log(fireApp);
 // var Firebase = fireApp.Firebase;
 const firestore = fireApp.Firebase.firestore();
 
@@ -27,8 +27,9 @@ const firestore = fireApp.Firebase.firestore();
 const key = "qfHw9wZLuqGmCH3cKcADSwArEbdGBXmfO8knM3oCGoSfwVmLRNzdI5AC_0KzGURK_-rJe2QO35GZtuJWWM4oUTBafJ7oJguJNGHBe1mzKvS_cP-C2kKhJPt-7xi3XnYx";
 
 // get restaurants based on cuisine, radius, price, and open now
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
     console.log(req.body);
+    let ref;
     var url = "https://api.yelp.com/v3/businesses/search?term=food&location=" + req.body.location;
     url = url + "&radius=" + req.body.radius + "&categories=" + req.body.cuisine;
     var price = "";
@@ -39,8 +40,8 @@ router.post('/', function(req, res, next) {
     url = url + "&price=" + price + "&open_now=true&sort_by=distance&limit=8";
 
     var bearer = 'Bearer ' + key;
-
-    fetch(url, {
+    
+    let response = await fetch(url, {
         method: "GET",
         headers: {
             'Authorization': bearer,
@@ -52,28 +53,44 @@ router.post('/', function(req, res, next) {
         //getting the business ids of the restaurants we got
    
         // !!! just storing 8 restaurant ids!! can change later if want
-        console.log(res);
-        var business_ids = Array(8);
-        
-        for (i=0; i < 8; ++i) {
+        //console.log(res);
+        if (res.total < 8){
+            var business_ids = Array(res.total);
+
+        } else {
+            var business_ids = Array(8);
+        }
+         
+        for (i=0; i < business_ids.length; ++i) {
+            
             business_ids[i] = res.businesses[i].id;
         }
         return business_ids;
+    
+    })
+    .then(async res => {
+        // adds the business ids to firebase
+        const docRef = await firestore.collection("restaurants/groups_from_yelp/business_ids").add({
+            user: "",
+            ids: res
+        });
+        //console.log(docRef.id);
+        ref = res;
+        return docRef.id;
         
     })
     .then(res => {
-        // adds the business ids to firebase
-        firestore.collection("restaurants/groups_from_yelp/business_ids").add({
-            user: "",
-            ids: res
-        })
-        .then(function(docRef){
-            console.log(docRef.id);
-        });
-        
+        return new Response(res);
     })
-    .catch(error => console.error('Error:', error))
-
+    .catch(error => console.error('Error:', error));
+    // response holds the id to the document with the ids of the businesses
+    console.log("this is response", response);
+    // ref holds the ids of all the businesses just pulled
+    console.log("this is ref", ref);
+    res.send({docId: response.body});
+    
+    //return response;
+   
     // const client = new Client({});
     // console.log(req.body);
     // var location = req.body.location;

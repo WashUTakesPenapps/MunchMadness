@@ -51,23 +51,28 @@ class App extends Component {
     // console.log(docRef);
     
     // calls the route restaurants.js to query list of restaurants
+    console.log("hello");
+   
     fetch('http://localhost:9000/restaurants', {
-      method: 'POST',
-      body: JSON.stringify({
-        cuisine: this.state.cuisine, //cuisine entry (make sure it's sanitized)
-        radius: this.state.radius, //radius entry, 0 to 24.854848 miles (so up to 25 mile radius)
-        maxPrice: maxPrice,
-        location: this.state.location
-      }),
-      headers: {"Content-Type": "application/json"}
-    })
-    .then(response => {
-      response.text();
-      this.setState({
-        submitted: true
-      });
-    })
-    .then(text => console.log(text))
+        method: 'POST',
+        body: JSON.stringify({
+          cuisine: this.state.cuisine, //cuisine entry (make sure it's sanitized)
+          radius: this.state.radius, //radius entry, 0 to 24.854848 miles (so up to 25 mile radius)
+          maxPrice: maxPrice,
+          location: this.state.location
+        }),
+        headers: {"Content-Type": "application/json"}
+      })
+      .then(response => {
+        console.log("am i here");
+        this.setState({
+          submitted: true
+        });
+        return response.json();
+        // return new Response(response);
+      })
+      .then(text => console.log(text))
+
   }
 
   onTextChangeC(e) {

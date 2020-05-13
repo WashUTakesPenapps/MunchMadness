@@ -3,7 +3,7 @@ import './App.css';
 // import { database, firestore } from './services/firebase';
 //import { firestore } from './services/firebase';
 
-class Poll extends React.Component {
+class Poll extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -12,6 +12,7 @@ class Poll extends React.Component {
             restaurants = [
                 {
                     name = props.name,
+                    id = props.id,
                     rating = props.rating,
                     is_closed = props.is_closed,
                     image = props.image_url,
@@ -31,6 +32,9 @@ class Poll extends React.Component {
     }
 
     handleClick(id){
+        // not sure if the id will be passed/if other things will be passed with it
+
+        //function to handle a click of a vote button for either restaurant
         let restaurantIndex =this.state.restaurants.findIndex(rest => rest.id === id);
         let restaurantToUpdate = this.state.restaurants[restaurantIndex];
         let updatedRestaurants = {...this.state.restaurants};
@@ -48,6 +52,7 @@ class Poll extends React.Component {
         <h1>Vote for your restaurant!</h1>
             <div className="restaurants">
                 {
+                    // creates a segment below for each restaurant (in this case, a pair)
                     this.state.restaurants.map((restaurant)=>
                     <div key = {restaurant.id} className="restaurant_info">
                         <h1 className="restaurant_name">{restaurant.name}</h1>
