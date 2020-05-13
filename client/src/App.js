@@ -50,10 +50,9 @@ class App extends Component {
       cuisine: this.state.cuisine,
       user: this.state.radius
     }); 
-    // console.log(docRef);
     
     // calls the route restaurants.js to query list of restaurants
-    console.log("hello");
+    
     (async() => {
       let response = await fetch('http://localhost:9000/restaurants', {
         method: 'POST',
@@ -66,15 +65,13 @@ class App extends Component {
         headers: {"Content-Type": "application/json"}
       })
       .then(response => {
-        console.log("am i here");
-        // this.setState({
-        //   submitted: true
-        // });
+        
         return response.json();
-        // return new Response(response);
       })
       .then(text => {
-        this.setState({docRef: text});
+        this.setState({
+          docRef: text
+        });
         this.setState({
           submitted: true
         });
@@ -118,6 +115,7 @@ class App extends Component {
           </form>
         }
         {this.state.submitted &&
+          // passing the doc id through props to bracket page
           <BracketPage docId = {this.state.docRef.docId}></BracketPage>
         }
         
