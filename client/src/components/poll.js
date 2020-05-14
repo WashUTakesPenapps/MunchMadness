@@ -8,6 +8,7 @@ class Poll extends Component {
         super(props);
         this.state = {
             isDone:false,
+            restaurantDetails: this.props.restaurantDetails,
             //num_votes = 0,
             restaurants: [
                 {
@@ -55,7 +56,9 @@ class Poll extends Component {
                     {
                         // creates a segment below for each restaurant (in this case, a pair)
                         this.state.restaurants.map((restaurant)=>
-                        <div key = {restaurant.id} className="restaurant_info">
+                        <div className="restaurant_info">
+
+                        {/* <div key = {restaurant.id} className="restaurant_info"> */}
                             <h1 className="restaurant_name">{restaurant.name}</h1>
                             <h2 className="restaurant_rating">{restaurant.rating}</h2>
                             {restaurant.is_closed && 

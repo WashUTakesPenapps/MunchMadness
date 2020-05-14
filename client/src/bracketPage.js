@@ -35,14 +35,43 @@ class BracketPage extends Component {
         } else {
             console.log("No such document!");
         }
-        this.setState({restaurantIds: doc.data().ids});
+        this.setState({restaurantIds: doc.data().ids});        
+    }
+
+    restaurantDetails() {
+        // fix so that you can fetch details from Yelp API (restaurants Details is there)
+        for(i = 0; i < 8; ++i) {
+            (async() => {
+                let response = await fetch('http://localhost:9000/restaurants/details', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    restaurantId: restaurantIds[i]
+                  }),
+                  headers: {"Content-Type": "application/json"}
+                })
+                .then(response => {
+                  return response.json();
+                })
+                .then(text => {
+                  this.setState({
+                    docRef: text
+                  });
+                  this.setState({
+                    submitted: true
+                  });
+                  return new Response(text);
+                })
+                
+                console.log(response);
+              })();
+        }
         
     }
 
     render () {
         return (
             <div>
-                <Poll  ></Poll>
+                <Poll restaurantDetails = {this.restaurantDetails.bind(this)} ></Poll>
             </div>
 
 

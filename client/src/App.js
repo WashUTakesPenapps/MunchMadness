@@ -14,7 +14,6 @@ class App extends Component {
       location: "",
       submitted: false,
       docRef: ""
-
     };
   }
 
@@ -65,7 +64,6 @@ class App extends Component {
         headers: {"Content-Type": "application/json"}
       })
       .then(response => {
-        
         return response.json();
       })
       .then(text => {
