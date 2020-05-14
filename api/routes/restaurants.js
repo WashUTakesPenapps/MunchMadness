@@ -29,7 +29,6 @@ const key = "qfHw9wZLuqGmCH3cKcADSwArEbdGBXmfO8knM3oCGoSfwVmLRNzdI5AC_0KzGURK_-r
 // get restaurants based on cuisine, radius, price, and open now
 router.post('/', async function(req, res, next) {
     console.log(req.body);
-    let ref;
     var url = "https://api.yelp.com/v3/businesses/search?term=food&location=" + req.body.location;
     url = url + "&radius=" + req.body.radius + "&categories=" + req.body.cuisine;
     var price = "";
@@ -53,7 +52,6 @@ router.post('/', async function(req, res, next) {
         //getting the business ids of the restaurants we got
    
         // !!! just storing 8 restaurant ids!! can change later if want
-        //console.log(res);
         if (res.total < 8){
             var business_ids = Array(res.total);
 
@@ -74,8 +72,6 @@ router.post('/', async function(req, res, next) {
             user: "",
             ids: res
         });
-        //console.log(docRef.id);
-        ref = res;
         return docRef.id;
         
     })
@@ -84,9 +80,7 @@ router.post('/', async function(req, res, next) {
     })
     .catch(error => console.error('Error:', error));
     // response holds the id to the document with the ids of the businesses
-    console.log("this is response", response);
     // ref holds the ids of all the businesses just pulled
-    console.log("this is ref", ref);
     res.send({docId: response.body});
     
     //return response;
@@ -116,6 +110,31 @@ router.post('/', async function(req, res, next) {
     //   .catch(e => {
     //     console.log(e);
     // });
+});
+
+router.post('/details', async function(req, res, next){
+//need to flesh out
+// wondering if it would be smarter to just store all of the business info
+// in the initial fetch rather than doing two?
+    //console.log(req);
+    let url = "https://api.yelp.com/v3/businesses/" + req.body.restaurantId;
+    let bearer = 'Bearer ' + key;
+
+    let response = await fetch(url, {
+        method: "GET",
+        headers: {
+            'Authorization': bearer,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => res.json())
+    .then(res => {
+        console.log("details res");
+        return new Response(res);
+    })
+    .catch(error => console.error('Error:', error));
+    
+    res.send(response.body);
 });
 
 module.exports = router;
