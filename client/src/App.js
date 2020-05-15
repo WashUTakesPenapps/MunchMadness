@@ -16,7 +16,7 @@ class App extends Component {
       docRef: "",
     };
 
-    console.log(this.props.location.state);
+    // console.log(this.props.location.state);
   }
 
   // finds user's location
