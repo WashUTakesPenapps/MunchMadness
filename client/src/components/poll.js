@@ -17,75 +17,97 @@ class Poll extends Component {
             num_votes_right: 0,
             // sort of a hack-y way to do this, but nested state vars seemed gross
             left_restaurant: {},
-            right_restaurant: {}
-            
+            right_restaurant: {},
+            current_index: 0
         };
     }
 
-    restaurantDetails() {
-        // fix so that you can fetch details from Yelp API (restaurants Details is there)
-        for(let i = 0; i < 8; ++i) {
-            (async() => {
-                let response = await fetch('http://localhost:9000/restaurants/details', {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    restaurantId: this.state.restaurantIds[i]
-                  }),
-                  headers: {"Content-Type": "application/json"}
-                })
-                .then(response => {
-                  return response.json();
-                })
-                .then(restaurant => {
-                    console.log("restaurant",restaurant);
-                    this.setState(prevState => ({
-                    restaurantDetails: [...prevState.restaurantDetails, restaurant]
-                    }));
-                    if (i ===0){
-                        console.log("left_rest before", this.state.left_restaurant);
+    restaurantDetails(i, id) {
+        // fetches 1 restaurant from the API; if user clicks on right restaurant, left is changed, vice versa
+        (async() => {
+            // await new Promise(resolve => setInterval(resolve, 1000));
+            fetch('http://localhost:9000/restaurants/details', {
+                method: 'POST',
+                body: JSON.stringify({
+                restaurantId: this.state.restaurantIds[i]
+                }),
+                headers: {"Content-Type": "application/json"}
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(restaurant => {
+                console.log("restaurant",restaurant);
+                this.setState(prevState => ({
+                restaurantDetails: [...prevState.restaurantDetails, restaurant]
+                }));
+                if (id == "") {
+                    if (i % 2 === 0) {
                         this.setState({
-                            left_restaurant: restaurant
+                            left_restaurant: restaurant,
+                            current_index: this.state.current_index + 1
                         });
-                        console.log("left_rest after", this.state.left_restaurant);
+                    } else {
+                        this.setState({
+                            right_restaurant: restaurant,
+                            current_index: this.state.current_index + 1
+                        });
+                    }
+                } else if (id === this.state.right_restaurant.id) {
+                    this.setState({
+                        left_restaurant: restaurant,
+                        current_index: this.state.current_index + 1
+                    });
+                } else if (id === this.state.left_restaurant.id) {
+                    this.setState({
+                        right_restaurant: restaurant,
+                        current_index: this.state.current_index + 1
+                    });
+                }
+                // if (i % 2===0 || id === this.state.right_restaurant.id){
+                //     // console.log("left_rest before", this.state.left_restaurant);
+                //     this.setState({
+                //         left_restaurant: restaurant,
+                //         current_index: this.state.current_index + 1
+                //     });
+                //     // console.log("left_rest after", this.state.left_restaurant.name);
 
-                    }
-                    else if (i===1){
-                        this.setState({
-                            right_restaurant: restaurant
-                        });
-                    }
-                    
-                  return new Response(restaurant);
-                })
-                
-                console.log(response);
-                
-            })();
-        }
-        
+                // }
+                // else if (i % 2===1 || id === this.state.left_restaurant.id){
+                //     this.setState({
+                //         right_restaurant: restaurant,
+                //         current_index: this.state.current_index + 1
+                //     });
+                // }
+                return new Response(restaurant);
+            })
+        })();
     }
 
     componentDidMount() {
-        this.restaurantDetails();
+        this.restaurantDetails(this.state.current_index, "");
+        this.restaurantDetails(this.state.current_index + 1, "");
     }
     // not sure if componentdidmount is the best way to update the restaurants?
 
     handleVote(id){
         // not sure if the id will be passed/if other things will be passed with it
+        this.restaurantDetails(this.state.current_index, id);
+        console.log(this.state);
         if (id === this.state.right_restaurant.id){
+            console.log("right resto clicked");
             this.setState({
                 num_votes: this.state.num_votes+1,
-                num_votes_right: this.state.num_votes_right+1
+                num_votes_right: this.state.num_votes_right+1,
             });
         } else {
+            console.log("left resto clicked");
             this.setState({
                 num_votes: this.state.num_votes+1,
-                num_votes_left: this.state.num_votes_left+1
+                num_votes_left: this.state.num_votes_left+1,
             });
         }
-       
-       
-
+        
     }
 
     render() {
@@ -102,7 +124,7 @@ class Poll extends Component {
                             <div className="restaurant_info">
                                 {/* <div key = {restaurant.id} className="restaurant_info">  */}
                                 <h1 className="restaurant_name">{this.state.left_restaurant.name}</h1>
-                                <h2 className="restaurant_rating">{this.state.left_restaurant.rating}</h2>
+                                <h2 className="restaurant_rating">Rating: {this.state.left_restaurant.rating}</h2>
                                 {this.state.left_restaurant.is_closed && 
                                     <h2 className="status_closed">
                                         Closed

@@ -50,7 +50,7 @@ router.post('/', async function(req, res, next) {
     .then(res => res.json())
     .then(res => {
         //getting the business ids of the restaurants we got
-   
+        console.log(res);
         // !!! just storing 8 restaurant ids!! can change later if want
         if (res.total < 8){
             var business_ids = Array(res.total);
@@ -116,7 +116,7 @@ router.post('/details', async function(req, res, next){
 //need to flesh out
 // wondering if it would be smarter to just store all of the business info
 // in the initial fetch rather than doing two?
-    //console.log(req);
+    console.log('HERE');
     let url = "https://api.yelp.com/v3/businesses/" + req.body.restaurantId;
     let bearer = 'Bearer ' + key;
 
