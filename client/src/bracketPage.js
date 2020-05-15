@@ -9,7 +9,7 @@ class BracketPage extends Component {
         this.state = { 
             docRef: this.props.docId,
             restaurantIds: [],
-            restaurantDetails: []
+            restaurantDetails: [],
         };
     }
 
@@ -81,7 +81,6 @@ class BracketPage extends Component {
                     : <Poll restaurantIds = {this.state.restaurantIds} ></Poll>
                 }
                 {/* <Poll restaurantDetails = {this.restaurantDetails.bind(this)} ></Poll> */}
-                
             </div>
 
 

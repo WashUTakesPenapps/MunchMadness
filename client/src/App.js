@@ -13,8 +13,10 @@ class App extends Component {
       radius: "",
       location: "",
       submitted: false,
-      docRef: ""
+      docRef: "",
     };
+
+    console.log(this.props.location.state);
   }
 
   // finds user's location
@@ -95,8 +97,8 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <Register/>
         {!this.state.submitted && 
+          <> <Register></Register>
           <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
             <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
             <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius (in miles)"/>
@@ -109,12 +111,12 @@ class App extends Component {
             </select>
             <button className="buttons" type="submit">Go!</button>
           </form>
+          </>
         }
         {this.state.submitted &&
           // passing the doc id through props to bracket page
           <BracketPage docId = {this.state.docRef.docId}></BracketPage>
         }
-        
       </div>
     );
   }
