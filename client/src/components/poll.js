@@ -92,6 +92,12 @@ class Poll extends Component {
 
     handleVote(id){
         // not sure if the id will be passed/if other things will be passed with it
+        if (this.state.current_index == this.state.restaurantIds.length) {
+            this.setState({
+                isDone: true
+            })
+            return;
+        }
         this.restaurantDetails(this.state.current_index, id);
         console.log(this.state);
         if (id === this.state.right_restaurant.id){
@@ -137,7 +143,7 @@ class Poll extends Component {
                                 }
                                 <img src={this.state.left_restaurant.image_url} alt="From restaurant"></img>
                                 <button onClick={this.handleVote.bind(this,this.state.left_restaurant.id)}>Vote for {this.state.left_restaurant.name}</button>
-                                <h4 className="restaurant_votes">{this.state.num_votes_left}</h4>
+                                {/* <h4 className="restaurant_votes">{this.state.num_votes_left}</h4> */}
                             </div>
 
                             <div className="restaurant_info">
@@ -157,7 +163,7 @@ class Poll extends Component {
                                 }
                                 <img src={this.state.right_restaurant.image_url} alt="From restaurant"></img>
                                 <button onClick={this.handleVote.bind(this,this.state.right_restaurant.id)}>Vote for {this.state.right_restaurant.name}</button>
-                                <h4 className="restaurant_votes">{this.state.num_votes_right}</h4>
+                                {/* <h4 className="restaurant_votes">{this.state.num_votes_right}</h4> */}
                             </div>
         
                         </div>
