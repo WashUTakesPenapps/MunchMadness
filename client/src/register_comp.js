@@ -6,7 +6,8 @@ class Register extends Component {
         super(props);
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            registered: false
         }
         this.register = this.register.bind(this)
         this.userChange = this.userChange.bind(this)
@@ -14,19 +15,26 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     //register fxn client side
-    register(user, pass) {
-        console.log('sending to register');
-        fetch('http://localhost:9000/register', {
-            method: 'POST',
-            body: JSON.stringify({
+    register(user, pass){
+        console.log('sending request to register');
+          (async() => {
+            let response = await fetch('http://localhost:9000/register', {
+              method: 'POST',
+              body: JSON.stringify({
               username: user,
               password: pass
-            }),
-            headers: {"Content-Type": "application/json"}
+              }),
+              headers: {"Content-Type": "application/json"}
           })
-          .then(response => response.text())
-          .then(text => console.log(text))
-    }
+          .then(response => {
+            return response.text()
+          })
+          .then(text => {
+            this.setState({registered: text})
+            console.log('registered successfully: ',this.state.registered)
+          })
+        })()
+      }
     userChange(e) {
         console.log('in userChange', e.target.value)
         this.setState({username: e.target.value});
@@ -44,7 +52,7 @@ class Register extends Component {
     }
     render() {
         return(
-            <div className='registerBox'>
+            <div className='register-box'>
                 <form className='register-form' onSubmit={this.handleSubmit}>
                     <label>Username:</label>
                     <input type='text' placeholder='username' id='register-username' onChange={this.userChange}></input>
@@ -52,6 +60,7 @@ class Register extends Component {
                     <label>Password:</label>
                     <input type='text'
                     placeholder='password' id='register-password' onChange={this.passChange}></input>
+                    <br></br>
                     <button type='submit' className='buttons'>Register</button>
                 </form>
             </div>

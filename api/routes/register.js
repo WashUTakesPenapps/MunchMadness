@@ -1,27 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-//firebase integration
-// var firebase = require('firebase/app');
-// require('firebase/firestore')
-// var firebaseConfig = {
-//   apiKey: "AIzaSyDmmROengKXvPdrG3qsQ505C10yImnZ0Tk",
-//   authDomain: "munch-madness-d2573.firebaseapp.com",
-//   databaseURL: "https://munch-madness-d2573.firebaseio.com",
-//   projectId: "munch-madness-d2573",
-//   storageBucket: "munch-madness-d2573.appspot.com",
-//   messagingSenderId: "657051909764",
-//   appId: "1:657051909764:web:c52e717e3995815af0ccd1",
-//   measurementId: "G-3TDV966TLE"
-// };
-
-// Initialize Firebase
-// var fireApp = firebase.initializeApp(firebaseConfig);
+//gets firebase info from client info
 var fireApp = require('../../client/src/services/firebase');
 const database = fireApp.Firebase.firestore();
-// var database = firebase.firestore(fireApp);
+
 //gets register data from a person and sends it to firebase
-router.post('/', function(req, res){
+router.post('/', async function(req, res){
   console.log('attempting to register...');
   try{
     console.log(req.body);
@@ -40,6 +25,7 @@ router.post('/', function(req, res){
           console.log('username: ',user,' already exists, use a different one');
           console.log('found at: ',doc.id);
           doesExist = true;
+          res.send(false)
         })
       })
       //runs if the username isn't in DB already
@@ -52,15 +38,19 @@ router.post('/', function(req, res){
         //fxn to return id of new acct
         .then(function(docRef){
           console.log('user: ',user, 'successfully registered under ',docRef.id)
+          res.send(true)
         })
         //error with adding to DB
         .catch(function(error){
           console.error('error adding document: ',error)
+          res.send(false)
         })
+
       })
       //error with querying from DB
       .catch(function(error){
         console.error('error getting document: ',error)
+        res.send(false)
       })
   }
   catch (err) {
