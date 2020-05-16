@@ -1,14 +1,10 @@
-import React, {Component } from 'react';
-import './App.css';
-// import { database, firestore } from './services/firebase';
-import { Firebase } from './services/firebase';
-import Register from './components/register_comp';
-import BracketPage from './bracketPage';
-import Login from './components/login_comp';
-import Search from './components/search_comp';
+import React, { Component } from 'react'
+import '../index.css';
+import BracketPage from '../bracketPage';
+import { Firebase } from '../services/firebase';
 
-class App extends Component {
-  constructor(props) {
+class Search extends Component {
+  constructor(props){
     super(props);
     this.state = { 
       cuisine: "",
@@ -17,10 +13,7 @@ class App extends Component {
       submitted: false,
       docRef: "",
     };
-
-    // console.log(this.props.location.state);
   }
-
   // finds user's location
   componentDidMount() {
     const success = position => {
@@ -40,7 +33,6 @@ class App extends Component {
       navigator.geolocation.getCurrentPosition(success, error);
     }
   }
-
   // request a restaurant
   onSubmit(e) {
     e.preventDefault();
@@ -55,7 +47,6 @@ class App extends Component {
     }); 
     
     // calls the route restaurants.js to query list of restaurants
-    
     (async() => {
       let response = await fetch('http://localhost:9000/restaurants', {
         method: 'POST',
@@ -83,7 +74,6 @@ class App extends Component {
       console.log(response);
     })();
   }
-
   onTextChangeC(e) {
     this.setState({
       cuisine: e.target.value
@@ -95,13 +85,11 @@ class App extends Component {
       radius: Math.floor(e.target.value * 1609.344)
     });
   }
-
   render () {
     return (
       <div className="App">
         {!this.state.submitted && 
           <>
-          <Login></Login>
           <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
             <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
             <input type="text" onChange={(e) => this.onTextChangeR(e)} placeholder="Radius (in miles)"/>
@@ -125,4 +113,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Search;

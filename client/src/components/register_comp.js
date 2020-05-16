@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './index.css';
+import '../index.css';
 
 class Register extends Component {
     constructor(props){
@@ -18,7 +18,7 @@ class Register extends Component {
     register(user, pass){
         console.log('sending request to register');
           (async() => {
-            let response = await fetch('http://localhost:9000/register', {
+            await fetch('http://localhost:9000/register', {
               method: 'POST',
               body: JSON.stringify({
               username: user,

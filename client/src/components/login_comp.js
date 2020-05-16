@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './index.css';
+import '../index.css';
 
 class Login extends Component {
   constructor(props){
@@ -18,7 +18,7 @@ class Login extends Component {
   login(user, pass){
     console.log('sending request to login');
       (async() => {
-        let response = await fetch('http://localhost:9000/login', {
+        await fetch('http://localhost:9000/login', {
           method: 'POST',
           body: JSON.stringify({
           username: user,
