@@ -2,8 +2,9 @@ import React, {Component } from 'react';
 import './App.css';
 // import { database, firestore } from './services/firebase';
 import { Firebase } from './services/firebase';
-import Register from './user';
+import Register from './register_comp';
 import BracketPage from './bracketPage';
+import Login from './login_comp';
 
 class App extends Component {
   constructor(props) {
@@ -100,6 +101,7 @@ class App extends Component {
     return (
       <div className="App">
         <Register/>
+        <Login/>
         {!this.state.submitted && 
           <form onSubmit={(e) => this.onSubmit(e)} className="user-inputs">
             <input type="text" onChange={(e) => this.onTextChangeC(e)} placeholder="Cuisine"/>
