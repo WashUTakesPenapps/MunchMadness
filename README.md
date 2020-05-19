@@ -26,7 +26,6 @@
   * Timer for when votes need to be cast by - Anda
     * If someone didn't vote by the time, vote will not be counted
   * Submitting restaurants? - Yelp API direct business matches? (decrement the number of restaurants we pull randomly)
-  
   * Stretch Goals
     * When you join the room, adding a username (like Kahoot) - if we want to keep track of names
     * If users submitted a restaurant, can attach their name with that restaurant - maybe a "spiky circle thing" as andag suggested
@@ -34,7 +33,6 @@
     * 8 boxes and you put in 8 things so that you can make a bracket thing for whatever
     * IOS app - Redux? Andag is on it 
   * ~ Design ~ (two different restaurants, swipe it and then a new restaurant would pop up)
-
 
 ## Language Ideas
 * Front End: React
