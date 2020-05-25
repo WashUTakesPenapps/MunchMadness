@@ -2,10 +2,11 @@ import React, {Component } from 'react';
 import './App.css';
 // import { database, firestore } from './services/firebase';
 import { Firebase } from './services/firebase';
-import Register from './components/register_comp';
+//import Register from './components/register_comp';
 import BracketPage from './bracketPage';
 import Login from './components/login_comp';
-import Search from './components/search_comp';
+import Group from './components/create_group';
+//import Search from './components/search_comp';
 
 class App extends Component {
   constructor(props) {
@@ -114,6 +115,7 @@ class App extends Component {
             </select>
             <button className="buttons" type="submit">Go!</button>
           </form>
+          <Group></Group>
           </>
         }
         {this.state.submitted &&

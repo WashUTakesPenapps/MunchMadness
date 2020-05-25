@@ -153,6 +153,7 @@ class Poll extends Component {
                                 <span className="add_span">
                                     <h2 className="restaurant_address">Address: {this.state.left_location[0]}</h2>
                                     <h2 className="restaurant_address">{this.state.left_location[1]}</h2>
+                                    {/* eslint-disable-next-line */}
                                     <h2 className="third_add"></h2>
                                 </span>
                                 <h2 className="restaurant_price">Price: {this.state.left_restaurant.price}</h2>
@@ -180,6 +181,7 @@ class Poll extends Component {
                                 <span className="add_span">
                                     <h2 className="restaurant_address">Address: {this.state.right_location[0]}</h2>
                                     <h2 className="restaurant_address">{this.state.right_location[1]}</h2>
+                                    {/* eslint-disable-next-line */}
                                     <h2 className="third_add"></h2>
                                 </span>
                                 <h2 className="restaurant_price">Price: {this.state.right_restaurant.price}</h2>
@@ -217,43 +219,3 @@ class Poll extends Component {
 
 export default Poll;
 
-// If we decide to go back to nested state variables, can use the map feature
-// {
-//     // creates a segment below for each restaurant (in this case, a pair)
-//     this.state.restaurants.map((restaurant)=>
-//     <div className="restaurant_info">
-
-//     {/* <div key = {restaurant.id} className="restaurant_info"> */}
-//         <h1 className="restaurant_name">{restaurant.name}</h1>
-//         <h2 className="restaurant_rating">{restaurant.rating}</h2>
-//         {restaurant.is_closed && 
-//             <h2 className="status_closed">
-//                 Closed
-//             </h2>
-//         }
-//         {!restaurant.is_closed && 
-//             <h2 className="status_closed">
-//                 Open
-//             </h2>
-//         }
-//         <img src={restaurant.image} alt="From restaurant"></img>
-//         <button onClick={this.handleVote.bind(this,restaurant.id)}>Vote for {restaurant.name}</button>
-//         <h4 className="restaurant_votes">{restaurant.votes}</h4>
-//     </div>
-//     )
-// }
-
-// For handleVote with nested
-        // below code is when used nested state variables
-
-        //function to handle a click of a vote button for either restaurant
-        // let restaurantIndex =this.state.restaurants.findIndex(rest => rest.id === id);
-        // let restaurantToUpdate = this.state.restaurants[restaurantIndex];
-        // let updatedRestaurants = {...this.state.restaurants};
-        // updatedRestaurants = {...restaurantToUpdate, 
-        //     votes: restaurantToUpdate.votes+1
-        // };
-        
-        // this.setState({
-        //     restaurants: updatedRestaurants
-        // });

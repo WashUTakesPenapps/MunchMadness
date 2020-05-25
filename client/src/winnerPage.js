@@ -89,6 +89,7 @@ class WinnerPage extends Component {
                 <span className="add_span">
                     <h2 className="restaurant_address">Address: {this.state.winner.location.display_address[0]}</h2>
                     <h2 className="restaurant_address">{this.state.winner.location.display_address[1]}</h2>
+                    {/* eslint-disable-next-line */}
                     <h2 className="third_add"></h2>
                 </span>
                 <h2 className="modes">Offers {this.mode()}</h2>
